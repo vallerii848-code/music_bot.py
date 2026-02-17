@@ -10,7 +10,7 @@ from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, Con
 # беремо токен із Render
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# адреса webhook (після деплою зміниш назву)
+# адреса webhook
 WEBHOOK_PATH = f"/webhook/{BOT_TOKEN}"
 
 app_flask = Flask(__name__)
@@ -91,7 +91,7 @@ def home():
 
 
 @app_flask.route(WEBHOOK_PATH, methods=["POST"])
-async def webhook():
+def webhook():
     update = Update.de_json(request.json, application.bot)
-    await application.process_update(update)
+    asyncio.run(application.process_update(update))
     return "ok"
